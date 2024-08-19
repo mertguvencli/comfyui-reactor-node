@@ -1,3 +1,4 @@
+import os
 import torch
 
 from r_facelib.utils import load_file_from_url
@@ -15,7 +16,7 @@ def init_parsing_model(model_name='bisenet', half=False, device='cuda'):
     else:
         raise NotImplementedError(f'{model_name} is not implemented.')
 
-    model_path = load_file_from_url(url=model_url, model_dir='../../models/facedetection', progress=True, file_name=None)
+    model_path = load_file_from_url(url=model_url, model_dir=os.path.join(os.environ['COMFYUI_MODELS_PATH'], 'facedetection'), progress=True, file_name=None)
     load_net = torch.load(model_path, map_location=lambda storage, loc: storage)
     model.load_state_dict(load_net, strict=True)
     model.eval()
